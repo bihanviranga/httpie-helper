@@ -4,7 +4,7 @@ RCFILENAME='httpierc'
 
 # Function to print the usage
 function usage {
-	echo "[*] Usage:"
+	echo "[*] Usage: $(basename $0) VERB ENDPOINT"
 	echo "$(basename $0) supports the following arguments:"
 
 	echo -e "\t-h --help"
@@ -82,12 +82,15 @@ do
 done
 
 # If the rest of the args are blank
-if [ -z "$@" ]; then
-	echo "[-] No args remaining"
-else
-	echo "[-] Unhandled parameters were: $@"
+if [ -z "$1" ] || [ -z "$2" ]; then
+	echo "[-] Endpoint or HTTP method not specified. Please see usage information."
+	usage
+	exit
 fi
 
-echo "[-] Reached end of script. Rest is not implemented yet."
+URL=${endpoints["$2"]}
+ARGS_COPY=("$@")
+eval "http $1 $URL ${ARGS_COPY[@]:2}"
+
 echo "[*] Quitting"
 
