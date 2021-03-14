@@ -12,6 +12,8 @@ function usage {
 
 	echo -e "\t--endpoints"
 	echo -e "\t\tPrint the endpoints read from the $RCFILENAME file"
+
+	echo "Example: Assuming $RCFILENAME contains todos=https://jsonplaceholder.typicode.com/todos/, Httpie can be called with '$(basename $0) GET todos'"
 }
 
 # Function to print the endpoints array
@@ -68,6 +70,7 @@ do
 		--endpoints)
 			print_endpoints
 			shift
+			exit
 			;;
 		-h | --help)
 			usage
@@ -92,5 +95,4 @@ URL=${endpoints["$2"]}
 ARGS_COPY=("$@")
 eval "http $1 $URL ${ARGS_COPY[@]:2}"
 
-echo "[*] Quitting"
-
+# La fin
